@@ -23,18 +23,10 @@
 import streamlit as st
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
-import boto3
-import os
 
 classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-# bucket_name = "pacinfo-fs"
-# s3_folder = "tmp/nduc/fine_tuned_model/"
-# local_folder = "./fine_tuned_model"
-
-# s3 = boto3.client("s3")
 
 @st.cache_resource
 def load_model():
@@ -116,4 +108,3 @@ if st.button("Generate"):
     else:
         response = llama_generate_answer(user_input)
         st.write(f"## Result:\n{response}")
-
