@@ -1,0 +1,6 @@
+streamlit
+transformers
+# AutoTokenizer
+# AutoModelForCausalLM
+# pipeline
+torch
