@@ -30,7 +30,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 @st.cache_resource
 def load_model():
-    output_dir = "./fine_tuned_model"
+    output_dir = "/home/duc_tn/llm/fine_tuned_model"
     tokenizer = AutoTokenizer.from_pretrained(output_dir)
     model = AutoModelForCausalLM.from_pretrained(output_dir)
     model.to(device)
