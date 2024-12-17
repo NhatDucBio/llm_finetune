@@ -10,7 +10,7 @@ def load_classifier():
 
 classifier = load_classifier()
 
-@st.cache_resource
+# @st.cache_resource
 def load_model():
     model_name = "NhatDuck/llama8B-finetuned-model"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -27,8 +27,6 @@ try:
     model, tokenizer = load_model()
 except ImportError as e:
     st.error(f"Error loading model: {e}")
-
-tokenizer.pad_token_id = tokenizer.eos_token_id
 
 st.title("LLM Fine-tune")
 
