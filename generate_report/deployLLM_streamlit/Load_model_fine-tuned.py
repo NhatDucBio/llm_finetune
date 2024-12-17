@@ -25,7 +25,7 @@ def load_model():
      
     model.eval()
     return model, tokenizer
-
+st.write(f"PyTorch version: {torch.__version__}")
 classifier = load_classifier()
 model, tokenizer = load_model()
 
