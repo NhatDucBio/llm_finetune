@@ -1,25 +1,3 @@
-# import streamlit as st
-# from transformers import AutoModelForCausalLM, AutoTokenizer
-
-# @st.cache_resource
-# def load_model():
-#     output_dir = "./fine_tuned_model"
-#     tokenizer = AutoTokenizer.from_pretrained(output_dir)
-#     model = AutoModelForCausalLM.from_pretrained(output_dir)
-#     return model, tokenizer
-
-# model, tokenizer = load_model()
-
-# st.title("LLM Fine-tune")
-
-# user_input = st.text_area("Enter input:")
-
-# if st.button("Generate"):
-#     inputs = tokenizer(user_input, return_tensors="pt")
-#     outputs = model.generate(inputs["input_ids"], max_length=2000, num_return_sequences=1)
-#     response = tokenizer.decode(outputs[0], skip_special_tokens=True)
-#     st.write(f"### Result: {response}")
-
 import streamlit as st
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
