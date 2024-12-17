@@ -23,7 +23,10 @@ def load_model():
     model.eval()
     return model, tokenizer
 
-model, tokenizer = load_model()
+try:
+    model, tokenizer = load_model()
+except ImportError as e:
+    st.error(f"Error loading model: {e}")
 
 tokenizer.pad_token_id = tokenizer.eos_token_id
 
