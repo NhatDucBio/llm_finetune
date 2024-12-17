@@ -30,7 +30,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 @st.cache_resource
 def load_model():
-    output_dir = "/home/duc_tn/llm/fine_tuned_model"
+    output_dir = "./fine_tuned_model"
     tokenizer = AutoTokenizer.from_pretrained(output_dir)
     model = AutoModelForCausalLM.from_pretrained(output_dir)
     model.to(device)
@@ -80,8 +80,8 @@ def llama_generate_answer(question, max_length=500):
             "thinking step by step to be sure you get the right answer. If you make a mistake or encounter "
             "an error in your thinking, say so out loud and attempt to correct it. If you don't know or "
             "aren't sure about something, say so clearly.\n\n"
-            f"Question: {question}\n\n"
-            "Answer:"
+            "Question: {question}\n\n"
+            "Answer: <<ANSWER>>".format(question=question)
         )
 
     inputs = tokenizer(prompt, return_tensors="pt",return_attention_mask=True, truncation=True).to(device)
@@ -98,7 +98,8 @@ def llama_generate_answer(question, max_length=500):
         top_p=0.55,
         do_sample=True,
     )
-    return tokenizer.decode(output[0], skip_special_tokens=True)
+    return tokenizer.decode(output[0], skip_special_tokens=True).split("<<ANSWER>>")[-1].strip()
+
 torch.cuda.synchronize()
 if st.button("Generate"):
     if not user_input.strip():
