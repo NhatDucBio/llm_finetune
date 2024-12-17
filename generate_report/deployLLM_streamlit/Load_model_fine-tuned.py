@@ -8,9 +8,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def load_classifier():
     return pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 
-classifier = load_classifier()
+# tokenizer.pad_token_id = tokenizer.eos_token_id
 
-# @st.cache_resource
+@st.cache_resource
 def load_model():
     model_name = "NhatDuck/llama8B-finetuned-model"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -20,19 +20,18 @@ def load_model():
         torch_dtype=torch.float16, 
         low_cpu_mem_usage=True
     )
+    
+    tokenizer.pad_token_id = tokenizer.eos_token_id
+     
     model.eval()
     return model, tokenizer
 
-try:
-    model, tokenizer = load_model()
-except ImportError as e:
-    st.error(f"Error loading model: {e}")
+classifier = load_classifier()
+model, tokenizer = load_model()
 
 st.title("LLM Fine-tune")
 
 user_input = st.text_area("Enter your question:")
-
-tokenizer.pad_token_id = tokenizer.eos_token_id
 
 def is_biotech_related (question, max_length = 500):
     """
