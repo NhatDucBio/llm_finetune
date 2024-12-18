@@ -1,6 +1,4 @@
-# from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from transformers import AutoTokenizer as tokenizers
-from transformers import AutoModelForCausalLM, pipeline
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import streamlit as st
 import torch
 
@@ -14,7 +12,7 @@ def load_classifier():
 
 # tokenizer.pad_token_id = tokenizer.eos_token_id
 
-@st.cache_resource
+# @st.cache_resource
 def load_model():
     model_name = "NhatDuck/llama8B-finetuned-model"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
