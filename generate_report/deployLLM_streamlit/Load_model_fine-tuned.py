@@ -1,4 +1,6 @@
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+# from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+from transformers import AutoTokenizer as tokenizers
+from transformers import AutoModelForCausalLM, pipeline
 import streamlit as st
 import torch
 
