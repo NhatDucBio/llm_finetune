@@ -1,5 +1,12 @@
 [server]
 headless = true
-maxUploadSize = 200
-serverTimeout = 300 
+maxUploadSize = 1000
+serverTimeout = 600
+enableXsrfProtection = true 
 enableCORS = false
+
+[logger]
+level = "debug"
+
+[cache]
+persist = true 
