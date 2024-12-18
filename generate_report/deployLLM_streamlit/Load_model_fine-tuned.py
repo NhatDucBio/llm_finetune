@@ -2,9 +2,9 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import streamlit as st
 import torch
 
-# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-device = torch.device("cpu")
-model.to(device)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# device = torch.device("cpu")
+
 
 @st.cache_resource
 def load_classifier():
@@ -19,15 +19,14 @@ def load_model():
     model = AutoModelForCausalLM.from_pretrained(
         model_name, 
         device_map="auto", 
-        torch_dtype=torch.float16, 
+        # torch_dtype=torch.float16, 
         low_cpu_mem_usage=True
     )
-    
+    model.to(device)
     tokenizer.pad_token_id = tokenizer.eos_token_id
      
     model.eval()
     return model, tokenizer
-st.write(f"PyTorch version: {torch.__version__}")
 classifier = load_classifier()
 model, tokenizer = load_model()
 
@@ -71,7 +70,7 @@ def llama_generate_answer(question, max_length=500):
             "Answer: <<ANSWER>>".format(question=question)
         )
 
-    inputs = tokenizer(prompt, return_tensors="pt",return_attention_mask=True, truncation=True).to(device)
+    inputs = tokenizer(prompt, return_tensors="pt",return_attention_mask=True, truncation=True, max_length=1000).to(device)
     output = model.generate(
         inputs['input_ids'],
         attention_mask = inputs["attention_mask"],

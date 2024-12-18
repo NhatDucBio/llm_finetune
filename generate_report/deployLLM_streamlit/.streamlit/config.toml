@@ -2,3 +2,4 @@
 headless = true
 maxUploadSize = 200
 serverTimeout = 300 
+enableCORS = false
