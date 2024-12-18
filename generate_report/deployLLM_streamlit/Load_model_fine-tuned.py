@@ -11,7 +11,7 @@ def load_classifier():
     return pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 
 
-@st.cache_resource
+# @st.cache_resource
 def load_model():
     model_name = "NhatDuck/llama8B-finetuned-model"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
