@@ -97,5 +97,5 @@ if st.button("Generate"):
         st.write("## Please enter a valid question.")
     else:
          def process_question():
-            response = await llama_generate_answer(user_input)
+            response = llama_generate_answer(user_input)
             st.write(f"## Result:\n{response}")
