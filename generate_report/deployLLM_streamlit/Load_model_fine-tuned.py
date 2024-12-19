@@ -91,11 +91,11 @@ def llama_generate_answer(question, max_length=500):
     )
     return tokenizer.decode(output[0], skip_special_tokens=True).split("<<ANSWER>>")[-1].strip()
 
-
 if st.button("Generate"):
     if not user_input.strip():
         st.write("## Please enter a valid question.")
+    elif not is_biotech_related(user_input):
+        st.write("## This question is unrelated, please try again!")
     else:
-         def process_question():
-            response = llama_generate_answer(user_input)
-            st.write(f"## Result:\n{response}")
+        response = llama_generate_answer(user_input)
+        st.write(f"## Result:\n{response}")
