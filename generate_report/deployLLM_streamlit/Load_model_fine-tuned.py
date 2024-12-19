@@ -1,7 +1,6 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import streamlit as st
 import torch
-import asyncio
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -10,8 +9,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def load_classifier():
     return pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 
-
-# @st.cache_resource
+@st.cache_resource
 def load_model():
     model_name = "NhatDuck/llama8B-finetuned-model"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -51,7 +49,7 @@ def is_biotech_related(question, max_length=500):
     return label == "biotechnology"
 
 
-async def llama_generate_answer_async(question, max_length=500):
+ def llama_generate_answer(question, max_length=500):
     if not is_biotech_related(question):
         return "This question is unrelated, please try again!"
     else:
@@ -84,10 +82,10 @@ async def llama_generate_answer_async(question, max_length=500):
         attention_mask=inputs["attention_mask"],
         eos_token_id=tokenizer.eos_token_id,
         pad_token_id=tokenizer.pad_token_id,
-        max_length=1000,
+        max_length=500,
         no_repeat_ngram_size=4,
         temperature=0.3,
-        # early_stopping=True,
+        early_stopping=True,
         top_k=60,
         top_p=0.55,
         do_sample=True,
@@ -99,8 +97,6 @@ if st.button("Generate"):
     if not user_input.strip():
         st.write("## Please enter a valid question.")
     else:
-        async def process_question():
-            response = await llama_generate_answer_async(user_input)
+         def process_question():
+            response = await llama_generate_answer(user_input)
             st.write(f"## Result:\n{response}")
-
-        asyncio.run(process_question())
