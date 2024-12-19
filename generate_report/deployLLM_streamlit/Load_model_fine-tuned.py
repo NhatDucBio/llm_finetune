@@ -48,8 +48,7 @@ def is_biotech_related(question, max_length=500):
     # Return True if the label is "biotechnology", otherwise False
     return label == "biotechnology"
 
-
- def llama_generate_answer(question, max_length=500):
+def llama_generate_answer(question, max_length=500):
     if not is_biotech_related(question):
         return "This question is unrelated, please try again!"
     else:
