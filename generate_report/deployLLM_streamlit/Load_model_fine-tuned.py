@@ -4,7 +4,6 @@ import torch
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-
 @st.cache_resource
 def load_classifier():
     return pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
@@ -18,12 +17,10 @@ def load_model():
         device_map="auto",
         torch_dtype=torch.float16,
         low_cpu_mem_usage=True,
-    )
-    model.to(device)
+    ).to(device)
     tokenizer.pad_token_id = tokenizer.eos_token_id
     model.eval()
     return model, tokenizer
-
 
 classifier = load_classifier()
 model, tokenizer = load_model()
